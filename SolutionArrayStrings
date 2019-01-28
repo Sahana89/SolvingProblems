@@ -1,0 +1,242 @@
+package problemsAndSolutions;
+
+import java.util.*;
+
+public class SolutionArrayStrings {
+	 
+	public boolean uniqueString(String example)
+	{
+		Boolean ret =true;
+		int l=example.length(),i=0,j=0;
+		for(i=0;i<l;i++)
+		{
+			char temp=example.charAt(i);
+			for(j=i+1;j<l;j++)
+			{
+				if(example.charAt(j)==temp) {
+					ret=false;
+					break;
+				}	
+			}
+			if(ret==false) break;
+		}
+		return ret;
+	}
+	
+	public String removeDuplicates(String example)
+	{
+		String ret=new String();
+		char[] ex=example.toCharArray();
+		int i=0,j=0,l=example.length();
+		for(i=0;i<l;i++)
+		{
+			for(j=i+1;j<l;j++)
+			{
+				if(ex[j]==ex[i])
+				{
+					ex[j]=' ';
+				}
+			}
+		}
+		for(i=0;i<l;i++)
+		{
+			if(ex[i]==' ') continue;
+			else ret=ret.concat(String.valueOf(ex[i]));
+		}
+		return ret;
+	}
+	public Boolean Anagrams(String x, String y)
+	{
+		Boolean ret=false;
+		HashMap<Character,Integer> strucx = new HashMap<Character,Integer>();
+		HashMap<Character, Integer> strucy = new HashMap<Character,Integer>();
+		int l1=x.length(),l2=y.length(),i=0,countx=0,county=0;
+		for(i=0;i<l1;i++)
+		{
+			char temp=x.charAt(i);
+			if(strucx.containsKey(temp)) 
+			{
+				countx= strucx.get(temp);
+				countx=countx+1;
+				strucx.put(temp, countx);
+			}
+			strucx.putIfAbsent(temp, 1);
+		}
+		for(i=0;i<l2;i++)
+		{
+			char temp=y.charAt(i);
+			if(strucy.containsKey(temp)) 
+			{
+				county= strucy.get(temp);
+				county=county+1;
+				strucy.put(temp, county);
+			}
+			strucy.putIfAbsent(temp, 1);
+		}
+		if(strucx.size()==strucy.size())
+		{
+			for(Character key : strucx.keySet()) {
+				Integer value = strucx.get(key);
+				if(strucy.containsKey(key)&&strucy.containsValue(value)) ret=true;
+			}
+		}
+		return ret;
+	}
+	public String replaceSpecialCharacter(String ex)
+	{
+		String ret=new String();
+		int i=0,l=ex.length();
+		for(i=0;i<l;i++)
+		{
+			char temp=ex.charAt(i);
+			if(Character.isWhitespace(temp))
+			{
+				ret=ret.concat("%");
+				ret=ret.concat("2");
+				ret=ret.concat("0");
+			}
+			else
+			{
+				ret=ret.concat(String.valueOf(temp));
+			}
+		}
+		return ret;
+	}
+	public boolean rotateString(String A, String B) {
+        int i=0,j=0,lb=B.length();
+        char b[] = new char[lb];
+        String bS=new String();
+        for(i=0;i<lb;i++)
+        {
+            if(Character.isAlphabetic(B.charAt(i))) 
+            	{
+            		b[j]=B.charAt(i);
+            		j++;
+            	}
+        }
+        Boolean ret=false;
+        char temp=' ';
+        for(i=0;i<lb;i++)
+        {
+            temp=b[0];
+            for(j=0;j<(lb-1);j++)
+            {
+                b[j]=b[j+1];
+            }
+            b[lb-1]=temp;
+            bS=String.valueOf(b);
+            if(A.contains(bS)||A.equalsIgnoreCase(bS)) 
+            {
+                ret=true;
+                break;
+            }
+        }
+        return ret;
+    }
+	public int[][] flipAndInvertImage(int[][] A) {
+        int nof=0,rowl=0,i=0,j=0,k=0,temp=0;
+        nof = A.length;
+        for(i=0;i<nof;i++)
+        {
+            rowl=A[i].length-1;
+            for(j=0,k=rowl;j<=k;j++,k--)
+            {
+                temp=A[i][k];
+                A[i][k]=A[i][j];
+                A[i][j]=temp;
+                if(A[i][j]==0) A[i][j]=1;
+                else A[i][j]=0;
+                if(A[i][k]==0) A[i][k]=1;
+                else A[i][k]=0;  
+                if(j==k)
+                {
+                	if(A[i][j]==0) A[i][j]=1;
+                    else A[i][j]=0;
+                }
+            }
+        }
+        return A;
+    }
+	public int[][] makematrix()
+	{
+		int[][] A=new int[][]{
+			{ 1,1,0,0,1,0 },
+			{ 0,1,0 },
+			{ 1,0 }
+		};
+		int nof=0,rowl=0;
+		nof = A.length;
+		for(int i=0;i<nof;i++)
+		{
+			rowl=A[i].length;
+			for(int j=0;j<rowl;j++)
+			{
+				System.out.print(A[i][j]);
+			}
+			System.out.println();
+		}
+		for(int i=0;i<nof;i++)
+		{
+			rowl=A[i].length;
+			for(int j=0;j<rowl;j++)
+			{
+				System.out.print(A[i][j]);
+			}
+			System.out.println();
+		}
+		return A;
+	}
+	public int[] shortestdistancetochar(String S, char C)
+	{
+		int[] rint=new int[S.length()];
+		int i=0,index1=0,index2=0;
+		index1=S.indexOf(C, 0);
+		index2=S.indexOf(C, index1);
+		//System.out.println(index1+" "+index2);
+		if(index2<0 && index1>0) {
+			index1=index1+1;
+			for(i=0;i<S.length();i++)
+			{
+				rint[i]=i+1;
+				rint[i]=Math.abs(index1-rint[i]);
+			}
+		}
+		else {
+			index1=index1+1;
+			index2=index2+1;
+			for(i=0;i<S.length();i++)
+			{
+				rint[i]=i+1;
+				//System.out.println(rint[i]+" ");
+				if(i==index2) {
+					index1=index2;
+					index2=S.indexOf(C, index1)+1;
+					//System.out.println(index1+" "+index2);
+				}	
+				rint[i]=Math.min(Math.abs(index1-rint[i]), Math.abs(index2-rint[i]));
+				//System.out.println(Math.min(Math.abs(index1-rint[i]), Math.abs(index2-rint[i])));
+			}
+		}
+		return rint;
+	}
+	public void printintarray(int[] result)
+	{
+		for(int i=0;i<result.length;i++)
+		{
+			System.out.print(result[i]+" ");
+		}
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		SolutionArrayStrings s1=new SolutionArrayStrings();
+		//System.out.println(s1.uniqueString("ab"));
+		//System.out.println(s1.removeDuplicates("abcd"));
+		//System.out.println(s1.Anagrams("%", "%"));
+		//System.out.println(s1.replaceSpecialCharacter("bcad"));
+		//System.out.println(s1.rotateString("abcde", "cde"));
+		//s1.flipAndInvertImage(s1.makematrix());
+		//s1.printintarray(s1.shortestdistancetochar("loveleetcode", 'z'));
+		//System.out.print(Integer.toBinaryString(2));
+	}
+
+}
